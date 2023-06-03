@@ -14,7 +14,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-4" style="margin-top:20px">
-                <h4 class="text-center">WelComr To DashBoard</h4>
+                <h4 class="text-center">WelCome To DashBoard</h4>
                <table class="col-md-10 col-md-offset-4 table">
                <h4 class="text-left text-primary">User table</h4>
                 <thead>

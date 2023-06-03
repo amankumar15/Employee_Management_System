@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Hash;
@@ -22,26 +22,29 @@ class CustomAuthController extends Controller
     public function registerUser(Request $request)
     {
         // echo 'Value Posted';
-        $request->validate ([
+        $validator = Validator::make($request->all(),[
             'name'=>'required',
             'email'=>'required| email|unique:users',
             'password'=>'required|min:5|max:12'
 
         ]);
-
+        if ($validator->passes()){
         $USER = new User();
         $USER->name=$request->name;
         $USER->email=$request->email;
         $USER->password=Hash::make($request->password);
         $res = $USER->save();
-        if($res)
-        {
-            return back()->with('success', 'you have registered');
+
+        return redirect()->route('registration.form')->with('success','Ragistration successfully.');
 
         }else
         {
-            return back()->with('fail', 'Somthing worng');
+            // return with errors
+            return redirect()->withErrors($validator)->with('Not success','not added successfully.');
         }
+     
+
+        
     }
 
 
@@ -62,7 +65,8 @@ class CustomAuthController extends Controller
             if(Hash::check($request->password,$user->password)){
 
                 $request->session()->put('loginId',$user->id);
-                return redirect('dashboard');
+                // return redirect('dashboard');
+                return redirect()->route('employees.index')->with('success','Login successfully.');
 
             }else
             {
